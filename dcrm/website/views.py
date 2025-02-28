@@ -1,4 +1,4 @@
-from django.shortcuts import render 
+from django.shortcuts import render,redirect
 from .forms import  LoginForm,CreateUserForm 
 from django.contrib.auth.models import auth 
 from django.contrib.auth import authenticate
@@ -16,7 +16,7 @@ def register(request):
         form = CreateUserForm(request.POST) 
         if form. is_valid(): 
             form.save() 
-            # return redirect('') 
+            return redirect('my-login') 
 
     context = {'form': form}
                
@@ -36,9 +36,13 @@ def my_login(request):
 
            if user is not None: 
                auth.login(request,user) 
-               #return redirect('')  
+               return redirect('')  
     context ={'login_form':form} 
-    return render(request, 'website/login.html', context=context) 
+    return render(request, 'website/login.html', context=context)  
+
+def logout(request): 
+    auth.logout(request) 
+    return redirect("")
 
         
        
